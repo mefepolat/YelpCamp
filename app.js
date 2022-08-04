@@ -2,6 +2,7 @@ const { urlencoded } = require('express');
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
+const ejsMate = require('ejs-mate')
 const path = require('path')
 const Campground = require('./models/campground')
 const methodOverride = require('method-override')
@@ -17,6 +18,7 @@ db.once('open', () => {
     console.log('database connection');
 });
 
+app.engine('ejs', ejsMate)
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname,'views'))
 app.use(express.urlencoded({extended:true}))
