@@ -1,4 +1,3 @@
-const { urlencoded } = require('express');
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
@@ -87,6 +86,8 @@ app.get('/campgrounds/:id', catchAsync(async (req,res) => {
 
     res.render('campgrounds/show.ejs', {campground})
 }))
+
+
 
 app.all('*', (req,res,next) => {
     next(new ExpressError('Page Not Found', 404))
