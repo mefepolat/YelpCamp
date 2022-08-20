@@ -7,6 +7,7 @@ const ExpressError = require('./utils/ExpressError');
 const methodOverride = require('method-override');
 const reviews = require('./routes/reviews')
 const campgrounds = require('./routes/campgrounds');
+const session = require('express-session')
 
 mongoose.connect('mongodb://localhost:27017/yelp-camp', 
 {   useNewUrlParser: true, 
@@ -23,9 +24,21 @@ app.engine('ejs', ejsMate)
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname,'views'))
 
+const sessionConfig = {
+    secret: 'thisshouldbeabettersecret',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+        maxAge: 1000 * 60 * 60 * 24 * 7
+    }
+}
+
+app.use(session(sessionConfig))
 app.use(express.urlencoded({extended:true}))
 app.use(methodOverride('_method'))
-app.use(express.static('public'))
+app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/campgrounds', campgrounds)
 app.use('/campgrounds/:id/reviews', reviews)
