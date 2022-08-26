@@ -2,9 +2,11 @@
   
     <ul>
         <h1>All campgrounds</h1>
+        <% if(currentUser) { %> 
         <div>
             <a href="/campgrounds/new">Add Campground</a>
         </div>
+        <% } %> 
         <% for (let campground of campgrounds) { %>
         <div class="card mb-3">
             <div class="row">
