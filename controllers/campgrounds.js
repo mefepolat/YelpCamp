@@ -1,6 +1,7 @@
 
 const Campground = require('../models/campground')
 const catchAsync = require('../utils/catchAsync');
+const {cloudinary} = require('../cloudinary/index.js')
 
 module.exports.index = async (req,res,next) => {
     const campgrounds = await Campground.find({});
@@ -9,8 +10,10 @@ module.exports.index = async (req,res,next) => {
 
 module.exports.newCampground = async (req,res,next) => {
     const campground = new Campground(req.body.campground);
+    campground.images = req.files.map(f => ({url: f.path, fileName: f.filename}));
     campground.author = req.user._id;
     await campground.save();
+    console.log(campground);
     req.flash('success', 'Successfully made a new campground!');
     res.redirect(`/campgrounds/${campground._id}`)
 };
@@ -42,7 +45,17 @@ module.exports.editCampground = async(req,res,next) => {
 
 module.exports.updateCampground = async(req,res,next) => {
     const {id} = req.params;
-    const campground = await Campground.findByIdAndUpdate(id,{...req.body.campground})
+    const campground = await Campground.findByIdAndUpdate(id,{...req.body.campground});
+    const imgs = req.files.map(f => ({url: f.path, fileName: f.filename}))
+    campground.images.push(...imgs);
+    await campground.save();
+    if(req.body.deleteImages){
+        for(let filename of req.body.deleteImages){
+           await cloudinary.uploader.destroy(filename);
+        }
+       await campground.updateOne({$pull: {images: {fileName: {$in: req.body.deleteImages}}}});
+       console.log(campground)
+    }
     req.flash('success', 'Successfully updated the campground!');
     res.redirect(`/campgrounds/${campground._id}`)
 };
