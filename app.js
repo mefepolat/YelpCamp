@@ -18,8 +18,17 @@ const User = require('./models/user')
 const userRoutes = require('./routes/users')
 const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require('helmet')
+const MongoStore = require('connect-mongo');
 
-mongoose.connect('mongodb://localhost:27017/yelp-camp', 
+// const dbUrl = process.env.DB_URL;
+
+const dbUrl2 = process.env.DB_URL || 'mongodb://localhost:27017/yelp-camp';
+
+const secret = process.env.SECRET || 'thisshouldbeabettersecret'
+
+// 'mongodb://localhost:27017/yelp-camp'
+
+mongoose.connect(dbUrl2, 
 {   useNewUrlParser: true, 
     useUnifiedTopology:true
 });
@@ -34,9 +43,21 @@ app.engine('ejs', ejsMate)
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname,'views'))
 
+const store = MongoStore.create({
+    mongoUrl: dbUrl2,
+    touchAfter: 24 * 60 * 60,
+    crypto: {
+        secret: secret
+    }
+});
+store.on('error', function(err){
+    console.log('Session store error', err)
+})
+
 const sessionConfig = {
+    store: store,
     name: 'session',
-    secret: 'thisshouldbeabettersecret',
+    secret: secret,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -64,6 +85,7 @@ const scriptSrcUrls = [
 ];
 const styleSrcUrls = [
     "https://kit-free.fontawesome.com/",
+    "https://stackpath.bootstrapcdn.com/",
     "https://api.mapbox.com/",
     "https://api.tiles.mapbox.com/",
     "https://fonts.googleapis.com/",
