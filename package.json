@@ -1,4 +1,9 @@
 {
+  "name": "yelpcamp",
+  "version": "1.0.0",
+  "scripts":{
+    "start":"node app.js"
+  },
   "dependencies": {
     "@mapbox/mapbox-sdk": "^0.13.4",
     "cloudinary": "^1.30.1",
