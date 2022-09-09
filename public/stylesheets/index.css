@@ -1,0 +1,14 @@
+/* .card-img-top {
+    max-height: 23rem;
+    max-width:27rem;
+} */
+
+/* .card {
+    max-height: 540px;
+} */
+
+.img-thumbnail {
+    width: 100%;
+    object-fit: cover;
+    height: 220px;
+}
