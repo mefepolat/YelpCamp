@@ -1,11 +1,8 @@
-/* .card-img-top {
-    max-height: 23rem;
-    max-width:27rem;
-} */
+#showButton{
+    width:100%
+}
 
-/* .card {
-    max-height: 540px;
-} */
+
 
 .img-thumbnail {
     width: 100%;

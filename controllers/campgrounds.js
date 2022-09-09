@@ -11,6 +11,22 @@ module.exports.index = async (req,res,next) => {
     res.render('campgrounds/index', {campgrounds})
 };
 
+module.exports.searchCampground = async (req,res,next) => {
+    
+    const {q} = req.query;
+    let regex = new RegExp(q, 'i');
+    const campgrounds = await Campground.find({$and: [ { $or: [{title:regex}, {location: regex}]}]}).exec();
+    if(campgrounds.length){
+
+    req.flash('success', `Success! ${campgrounds.length} campground(s) found.`)
+    return res.render('campgrounds/search.ejs', {campgrounds});
+    }  else {
+        req.flash('success', `No results found.`)
+        res.redirect('/campgrounds')
+    }
+    }
+    
+
 module.exports.newCampground = async (req,res,next) => {
     const geoData = await geoCoder.forwardGeocode({
         query: req.body.campground.location,
