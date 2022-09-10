@@ -2,7 +2,31 @@
     width:100%
 }
 
+h1{
+    background-color: black;
+    color: #CDB3AD;
+    text-shadow: 0 0 10px #FFFFFF;
+    text-align: center;
+    height: 2em;
+    padding-top: 0.38em;
+}
 
+#addCampground{
+    margin: 0 auto;
+    border: 1px solid #CDB3AD;
+    width: fit-content;
+    padding: 1em;
+    color: black;
+}
+
+#addLink{
+    text-decoration: none;
+    color: black;
+}
+
+#addCampground:hover{
+    background-color: #CDB3AD;
+}
 
 .img-thumbnail {
     width: 100%;

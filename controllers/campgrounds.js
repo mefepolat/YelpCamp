@@ -32,10 +32,15 @@ module.exports.newCampground = async (req,res,next) => {
         query: req.body.campground.location,
         limit: 1
     }).send()
+    if(!geoData.body.features[0]){
+        req.flash('error', 'Please enter a valid location.');
+        res.redirect('/campgrounds/new');
+    }
     const campground = new Campground(req.body.campground);
     campground.geometry = geoData.body.features[0].geometry;
     campground.images = req.files.map(f => ({url: f.path, fileName: f.filename}));
     campground.author = req.user._id;
+   
     await campground.save();
     console.log(campground);
     req.flash('success', 'Successfully made a new campground!');
@@ -87,9 +92,14 @@ module.exports.updateCampground = async(req,res,next) => {
 module.exports.deleteCampground = async(req,res,next) => {
     const {id} = req.params;
     const campground = await Campground.findById(id);
+    
     if(!campground.author.equals(req.user._id)){
         req.flash('error', 'You do not have permission to do that!');
         return res.redirect(`/campgrounds/${campground._id}`);
+    }
+
+    for(let image of campground.images){
+        await cloudinary.uploader.destroy(image.fileName)
     }
     await Campground.findByIdAndDelete(id)
     req.flash('success', 'Successfully deleted the campground.')
