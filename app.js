@@ -90,13 +90,16 @@ const styleSrcUrls = [
     "https://api.tiles.mapbox.com/",
     "https://fonts.googleapis.com/",
     "https://use.fontawesome.com/",
-    "https://cdn.jsdelivr.net"
+    "https://cdn.jsdelivr.net",
+    "https://fonts.gstatic.com/s/combo/"
 ];
 const connectSrcUrls = [
     "https://api.mapbox.com/",
     "https://a.tiles.mapbox.com/",
     "https://b.tiles.mapbox.com/",
     "https://events.mapbox.com/",
+    "https://fonts.google.com/",
+    "https://fonts.gstatic.com/s/combo/"
    
 ];
 const fontSrcUrls = [];
@@ -115,8 +118,13 @@ app.use(
                 "data:",
                 "https://res.cloudinary.com/dumxd1a8b/image/upload/", 
                 "https://images.unsplash.com/",
+                "https://i.imgur.com/"
+                
             ],
-            fontSrc: ["'self'", ...fontSrcUrls],
+            fontSrc: ["'self'", 
+            ...fontSrcUrls,
+            "https://fonts.gstatic.com/"
+        ],
         },
     })
 );

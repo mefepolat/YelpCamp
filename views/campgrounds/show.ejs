@@ -7,15 +7,19 @@
     <div class="col-6">
       <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
+          <% if(campground.images.length) { %> 
           <% campground.images.forEach((image, i)=> { %>
 
             <div class="carousel-item <%= i === 0 ? 'active' : '' %>">
               <img src="<%= image.url %> " class="d-block w-100" alt="...">
             </div>
-            <% }) %>
-
+            <% }) } else { %>
+              <div class="card-img">
+                <img src="https://i.imgur.com/QCjC7e4.png" class="img-fluid" alt="">
+              </div>
+              <% } %> 
         </div>
-        <% if (campground.images.length> 1) { %>
+        <% if (campground.images.length > 1) { %>
           <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
             data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
