@@ -1,6 +1,7 @@
 
 const User = require('../models/user');
 
+
 module.exports.registerUser = async (req,res, next) => {
     try{
     const {username,email,password} = req.body;
@@ -20,6 +21,18 @@ module.exports.registerUser = async (req,res, next) => {
     }
     
 };
+
+module.exports.userDetails = async (req,res,next) => {
+
+    const {username} = req.params;
+    const user = await User.findOne({username}).populate({path: 'campgrounds'})
+    console.log(user)
+    if(!user){
+        req.flash('error', 'Cannot access that username.')
+        return res.redirect('/campgrounds')
+    }
+    res.render('users/details.ejs', {user})
+}
 
 module.exports.login = (req,res) => {
     req.flash('success', 'Welcome Back!');

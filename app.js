@@ -118,7 +118,8 @@ app.use(
                 "data:",
                 "https://res.cloudinary.com/dumxd1a8b/image/upload/", 
                 "https://images.unsplash.com/",
-                "https://i.imgur.com/"
+                "https://i.imgur.com/",
+                "https://iili.io/"
                 
             ],
             fontSrc: ["'self'", 
@@ -141,6 +142,7 @@ app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req,res,next) => {
+    
     res.locals.currentUser = req.user;
    res.locals.success = req.flash('success');
    res.locals.error = req.flash('error');
