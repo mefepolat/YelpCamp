@@ -2,4 +2,26 @@
 
 
 
-<h1><%= user.username %>'s personal page </h1>
+
+
+
+
+
+
+<div class="container-fluid">
+
+<div class="card mb-3 mt-5" style="max-width: 700px;">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img src="https://iili.io/PhsK0J.png" class="img-fluid rounded-start" alt="...">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title mb-3">Profile Details:</h5>
+          <p class="card-text">Username: <%= user.username %> </p>
+          <p class="card-text">Email: <%= user.email %> </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

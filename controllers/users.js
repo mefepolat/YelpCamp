@@ -23,12 +23,16 @@ module.exports.registerUser = async (req,res, next) => {
 };
 
 module.exports.userDetails = async (req,res,next) => {
-
+    console.log(res.locals.currentUserDetails)
+    console.log(req.user._doc)
+    if(!res.locals.currentUser || res.locals.currentUserDetails.username !== req.params.username){
+        req.flash('error', 'You do not have permissions to do this.')
+       return res.redirect('/campgrounds');
+    }
     const {username} = req.params;
     const user = await User.findOne({username}).populate({path: 'campgrounds'})
-    console.log(user)
     if(!user){
-        req.flash('error', 'Cannot access that username.')
+        req.flash('error', 'Cannot access that user.')
         return res.redirect('/campgrounds')
     }
     res.render('users/details.ejs', {user})
