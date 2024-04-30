@@ -28,7 +28,7 @@ const secret = process.env.SECRET || 'thisshouldbeabettersecret'
 
 // 'mongodb://localhost:27017/yelp-camp'
 
-mongoose.connect('mongodb://127.0.0.1:27017/yelp-camp', 
+mongoose.connect(dbUrl, 
 {   useNewUrlParser: true, 
     useUnifiedTopology:true
 });
@@ -44,7 +44,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname,'views'))
 
 const store = MongoStore.create({
-    mongoUrl: dbUrl2,
+    mongoUrl: dbUrl,
     touchAfter: 24 * 60 * 60,
     crypto: {
         secret: secret
